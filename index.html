@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <title>ToDo</title>
 </head>
@@ -16,19 +19,16 @@
             <div class="todo__block-start">
 
                 <div class="todo__title">
-                    <form action="">
-                        <p>Надо сделать:</p>
-                        <input class="do__text" type="text">
-                        <button class="add__do" type="submit">Добавить</button>
-                    </form>
+                    <p>Надо сделать</p>
                 </div>
 
                 <ul class="do__list">
-                    <li class="do__item"> Добавить первую задачу
-                        <div class="buttons">
-                            <div class="delete__do"></div>
-                            <div class="submit__do"></div>
+                    <li class="do__item"> 
+                        <div class="content__do-item start">
+                            <div class="text">Добавить задачу</div>
+                            <img class="submit__do" src="/img/right.png" width="30" height="30">
                         </div>
+                        <img class="delete__do" src="/img/delete.png" width="35" height="35">
                     </li>
                 </ul>
 
@@ -38,15 +38,16 @@
             <div class="todo__block-process">
 
                 <div class="todo__title">
-                    <p>В процессе:</p>
+                    <p>В процессе</p>
                 </div>
 
                 <ul class="do__list-process">
-                    <li class="do__item"> Добавить первую задачу
-                        <div class="buttons">
-                            <img class="animate__do" src="/img/load.gif" width="20px" height="20px">
-                            <div class="done__do"></div>
+                    <li class="do__item"> 
+                        <div class="content__do-item process">
+                            <div class="text">Найти решение</div>
+                            <img class="done__do" src="/img/load.gif" width="30" height="30">
                         </div>
+                        <img class="delete__do" src="/img/delete.png" width="35" height="35">
                     </li>
                 </ul>
             </div>
@@ -55,25 +56,42 @@
             <div class="todo__block-done">
 
                 <div class="todo__title">
-                    <p>Выполнено:</p>
+                    <p>Выполнено</p>
                 </div>
 
                 <ul class="do__list-done">
-                    <li class="do__item"> Добавить первую задачу
-                        <div class="buttons">
-                            <div class="delete__do"></div>
-                            <div class="submit__do"></div>
+                    <li class="do__item">
+                        <div class="content__do-item done">
+                            <div class="text">Завершить задачу</div>
+                            <img class="success__do" src="/img/done.svg" width="30" height="30">
                         </div>
+                        <img class="delete__do" src="/img/delete.png" width="35" height="35">
                     </li>
                 </ul>
             </div>
 
+            <!-- <div class="modal">
+                <div class="modal__wrapper">
+                    <div class="modal__content">
+                        hello, it's modal!
+                    </div>
+                </div>
+            </div> -->
 
+            <div class="modal__form">
+                <div class="formAddDo">
+                    <form action="">
+                        <input class="do__text" type="text">
+                        <button class="add__do" type="submit">Добавить</button>
+                    </form>
+                </div>
+            </div>
 
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- <script src="app.js"></script> -->
+    <script src="script.js"></script>
     
 </body>
 </html>
