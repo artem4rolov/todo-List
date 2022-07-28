@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="/src/assets/css/main.css">
     <title>ToDo</title>
 </head>
 <body>
@@ -20,15 +20,18 @@
 
                 <div class="todo__title">
                     <p>Надо сделать</p>
+                    <div class="open__form-btn">
+                        <img class="open__form" src="/src/assets/img/plus.svg">
+                    </div>
                 </div>
 
                 <ul class="do__list">
                     <li class="do__item"> 
                         <div class="content__do-item start">
                             <div class="text">Добавить задачу</div>
-                            <img class="submit__do" src="/img/right.png" width="30" height="30">
+                            <img class="submit__do" src="/src/assets/img/right.png" width="30" height="30">
                         </div>
-                        <img class="delete__do" src="/img/delete.png" width="35" height="35">
+                        <img class="delete__do" src="/src/assets/img/delete.png" width="35" height="35">
                     </li>
                 </ul>
 
@@ -45,9 +48,9 @@
                     <li class="do__item"> 
                         <div class="content__do-item process">
                             <div class="text">Найти решение</div>
-                            <img class="done__do" src="/img/load.gif" width="30" height="30">
+                            <img class="done__do" src="/src/assets/img/load.gif" width="30" height="30">
                         </div>
-                        <img class="delete__do" src="/img/delete.png" width="35" height="35">
+                        <img class="delete__do" src="/src/assets/img/delete.png" width="35" height="35">
                     </li>
                 </ul>
             </div>
@@ -63,35 +66,43 @@
                     <li class="do__item">
                         <div class="content__do-item done">
                             <div class="text">Завершить задачу</div>
-                            <img class="success__do" src="/img/done.svg" width="30" height="30">
+                            <img class="success__do" src="/src/assets/img/done.svg" width="30" height="30">
                         </div>
-                        <img class="delete__do" src="/img/delete.png" width="35" height="35">
+                        <img class="delete__do" src="/src/assets/img/delete.png" width="35" height="35">
                     </li>
                 </ul>
             </div>
 
-            <!-- <div class="modal">
+            <!-- модалка -->
+            <div class="modal">
                 <div class="modal__wrapper">
                     <div class="modal__content">
-                        hello, it's modal!
+                        <div class="formAddDo">
+                            <form action="">
+                                <input class="do__text" type="text" maxlength="36">
+                                <button class="add__do" type="submit">Добавить</button>
+                            </form>
+                            <div class="close__btn"><span>x</span></div>
+                        </div>
                     </div>
-                </div>
-            </div> -->
-
-            <div class="modal__form">
-                <div class="formAddDo">
-                    <form action="">
-                        <input class="do__text" type="text">
-                        <button class="add__do" type="submit">Добавить</button>
-                    </form>
                 </div>
             </div>
 
-        </div>
+            <label class="main__menu">
+                <div class="icon__faq"><img src="/src/assets/img/info.png"></div>
+                <img class="icon__theme" src="/src/assets/img/day.png">
+                <input type="checkbox" name="checkboxName" class="checkbox"/>
+                <div class="switch"></div>
+            </label>
+
+            
+
+            
+        </div> <!--контейнер закрывается --> 
     </div>
 
     <!-- <script src="app.js"></script> -->
-    <script src="script.js"></script>
+    <script src="/src/js/main.js"></script>
     
 </body>
 </html>
