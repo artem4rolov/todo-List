@@ -143,6 +143,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }   
 
         scroll(doArrayStart, doList, 10);
+
+        if (doArrayStart.length >= 10) {
+            const achivment = document.createElement('div'),
+                  achivmentImg = document.createElement('img'),
+                  achivmentText = document.createElement('div');
+    
+            achivment.style.cssText = `
+                position: absolute;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 200px;
+                height: 100px;
+
+                background: white;
+                border-radius: 50px;
+
+                top: 0;
+                margin-left: 20px
+                margin-top: 20px;
+
+                z-index: 120;
+            `;
+
+            achivmentImg.setAttribute('src', '../src/assets/img/gif-start.gif');
+            achivmentImg.setAttribute('width', 100);
+            achivmentImg.setAttribute('height', 100);
+            achivmentText.innerHTML = '<h2>Деловой человек!</h2>';
+
+            achivment.append(achivmentImg);
+            achivment.append(achivmentText);
+    
+            document.body.append(achivment);
+
+            setTimeout(() => {
+                achivment.remove();
+                achivmentImg.remove();
+                achivmentText.remove();
+            }, 3000);
+        }
     });
     
     //удаление задач из первого списка
@@ -184,6 +225,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
 
                 scroll(doArrayProcess, doListProcess, 10);
+                
+                if (doArrayProcess.length >= 10) {
+                    const achivment = document.createElement('div'),
+                          achivmentImg = document.createElement('img'),
+                          achivmentText = document.createElement('div');
+            
+                    achivment.style.cssText = `
+                        position: absolute;
+        
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 300px;
+                        height: 100px;
+        
+                        background: white;
+                        border-radius: 50px;
+        
+                        top: 0;
+                        margin-left: 20px
+                        margin-top: 20px;
+        
+                        z-index: 120;
+                    `;
+        
+                    achivmentImg.setAttribute('src', '../src/assets/img/gif-process.gif');
+                    achivmentImg.setAttribute('width', 100);
+                    achivmentImg.setAttribute('height', 100);
+                    achivmentText.innerHTML = '<h2>А ты не сдаешься!</h2>';
+        
+                    achivment.append(achivmentImg);
+                    achivment.append(achivmentText);
+            
+                    document.body.append(achivment);
+        
+                    setTimeout(() => {
+                        achivment.remove();
+                        achivmentImg.remove();
+                        achivmentText.remove();
+                    }, 3000);
+                }
             });
         });
     });
@@ -262,6 +344,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 // createDoneDoosList(doArrayDone, doListDone);
 
                 scroll(doArrayDone, doListDone, 10);
+
+                if (doArrayDone.length >= 10) {
+                    const achivment = document.createElement('div'),
+                          achivmentImg = document.createElement('img'),
+                          achivmentText = document.createElement('div');
+            
+                    achivment.style.cssText = `
+                        position: absolute;
+        
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 280px;
+                        height: 120px;
+        
+                        background: white;
+                        border-radius: 50px;
+        
+                        top: 0;
+                        margin-left: 20px
+                        margin-top: 20px;
+        
+                        z-index: 120;
+                    `;
+        
+                    achivmentImg.setAttribute('src', '../src/assets/img/gif-done.gif');
+                    achivmentImg.setAttribute('width', 100);
+                    achivmentImg.setAttribute('height', 100);
+                    achivmentText.innerHTML = '<h2>Держишь слово!</h2>';
+        
+                    achivment.append(achivmentImg);
+                    achivment.append(achivmentText);
+            
+                    document.body.append(achivment);
+        
+                    setTimeout(() => {
+                        achivment.remove();
+                        achivmentImg.remove();
+                        achivmentText.remove();
+                    }, 3000);
+                }
             });
         }); 
     });
@@ -308,7 +431,13 @@ document.addEventListener('DOMContentLoaded', () => {
         switchTeme.classList.toggle('switchOn');
 
         if (switchTeme.classList.contains('switchOn')) {
-            iconTheme.setAttribute('src', '/src/assets/img/night.png'); /* меняем изображение при смене темы оформления */
+            setTimeout(() => {
+                setTimeout(() => {
+                    iconTheme.setAttribute('src', '/src/assets/img/night.png'); /* меняем изображение при смене темы оформления */
+                }, 0);
+                iconTheme.style.transform = 'rotate(360deg)';
+            }, 0);
+            
 
             document.querySelectorAll('.todo__title').forEach(item => {
                 item.style.color = '#fff'; /* меняем цвет текста в заголовках на белый */
@@ -323,7 +452,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } else {
             // делаем всё как было для светлой темы
-            iconTheme.setAttribute('src', '/src/assets/img/day.png');
+            setTimeout(() => {
+                setTimeout(() => {
+                    iconTheme.setAttribute('src', '/src/assets/img/day.png'); /* меняем изображение при смене темы оформления */
+                }, 0);
+                iconTheme.style.transform = '';
+            }, 0);
+            
+            
             
             document.querySelectorAll('.todo__title').forEach(item => {
                 item.style.color = '';
@@ -340,17 +476,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // открытие модального окна с информацией
     FAQbtn.addEventListener('click', () => {
-        
+        const infoModal = document.createElement('div'),
+              infoModalContent = document.createElement('div'),
+              closeForm = document.createElement('div');
+
+        const message = document.createElement('div');
+        message.style.cssText = `
+            width: 100%;
+            height: 100%;
+            margin-top: 20px;
+            margin: 0 auto;
+            border-radius: 50px;
+            font-size: 14px;
+        `;
+
+        infoModal.classList.add('modal');
+        infoModalContent.classList.add('modal__wrapper');
+        closeForm.classList.add('close__btn');
+        closeForm.style.marginRight = '20px';
+        closeForm.style.marginTop = '20px';
+        closeForm.innerHTML = 'x';
+
+        message.innerHTML = `
+            <b>Канбан-доски</b>
+            <hr>
+            <i>А вы думали, что это простой туду-лист? Нет.</i>
+            Методология канбан пришла к нам с японского завода Toyota и в контексте этой концепции
+            переводится как “сигнальная карточка”. Этот метод в первую очередь про визуализацию задач
+            и управление их потоком.
+        `;
+
+        infoModal.append(infoModalContent);
+        infoModalContent.append(message);
+        infoModalContent.append(closeForm);
+        document.body.append(infoModal);
+
+        infoModal.style.display = 'block';
+        infoModalContent.style.display = 'block';
+
+        let eventList = ['click', 'keydown'];
+
+        eventList.forEach(event => {
+            infoModal.addEventListener(event, (e) => {
+                if (e.target.classList.contains('modal') || e.keyCode === 27) {
+                    infoModal.style.display = 'none';
+                    infoModalContent.style.display = 'none';
+                    message.remove();
+                }
+            });
+        });
+
+        closeForm.addEventListener('click', (e) => {
+            infoModal.style.display = 'none';
+            infoModalContent.style.display = 'none';
+            message.remove();
+        });
     });
 
-    // статус-бар на устройствах, шириной экрана от 102 и ниже
+    // статус-бар на устройствах, шириной экрана от 1024 и ниже
+    const main = document.querySelector('.main'),
+          body = document.querySelector('body'),
+          btnNext = document.querySelector('.next'),
+          btnPrev = document.querySelector('.prev'),
+          blockWithList = document.querySelector('.todo__block-start');
+
+    //  шаг     скролл бади (0) + ширина блока с задачами   +  (ширина блока main) - (ширина блока с задачами * 3) - 10 (примерный расчет)
+    let step = (body.scrollLeft + blockWithList.clientWidth + ((main.clientWidth - (blockWithList.clientWidth * 3) - 10) / 3));
     
-    const main = document.querySelector('.main');
 
-    main.addEventListener('scroll', () => {
-        let posLeft = (main.pageXOffset !== undefined) ? main.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
+    btnNext.addEventListener('click', (e) => {
+        body.scrollBy({
+            left: step,
+            behavior: 'smooth'
+        });
+    });
 
-        console.log(posLeft);
+    btnPrev.addEventListener('click', (e) => {
+        body.scrollBy({
+            left: -step,
+            behavior: 'smooth'
+        });
+    });
+
+    //secret
+    const secret = document.querySelector('.secret');
+
+    secret.addEventListener('click', () => {
+        const infoModal = document.createElement('div'),
+              infoModalContent = document.createElement('div'),
+              closeForm = document.createElement('div');
+
+        const message = document.createElement('div');
+        message.style.cssText = `
+            width: 100%;
+            height: 100%;
+            margin-top: 20px;
+            margin: 0 auto;
+            border-radius: 50px;
+            font-size: 14px;
+        `;
+
+        infoModal.classList.add('modal');
+        infoModalContent.classList.add('modal__wrapper');
+        closeForm.classList.add('close__btn');
+        closeForm.style.marginRight = '20px';
+        closeForm.style.marginTop = '20px';
+        closeForm.innerHTML = 'x';
+
+        message.innerHTML = `
+            <b>Секрет!</b>
+            <br>
+            P.S. Чтобы разгадать секрет - добавляй как можно больше задач, и увидишь результат!
+        `;
+
+        infoModal.append(infoModalContent);
+        infoModalContent.append(message);
+        infoModalContent.append(closeForm);
+        document.body.append(infoModal);
+
+        infoModal.style.display = 'block';
+        infoModalContent.style.display = 'block';
+
+        let eventList = ['click', 'keydown'];
+
+        eventList.forEach(event => {
+            infoModal.addEventListener(event, (e) => {
+                if (e.target.classList.contains('modal') || e.keyCode === 27) {
+                    infoModal.style.display = 'none';
+                    infoModalContent.style.display = 'none';
+                    message.remove();
+                }
+            });
+        });
+
+        closeForm.addEventListener('click', (e) => {
+            infoModal.style.display = 'none';
+            infoModalContent.style.display = 'none';
+            message.remove();
+        });
+
+        secret.remove();
     });
 
 });
