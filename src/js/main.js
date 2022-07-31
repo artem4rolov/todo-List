@@ -16,7 +16,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let doArrayStart = [], /* массив с задачами в левом списке */
         doArrayProcess = [], /* массив с задачами в центральном списке */
-        doArrayDone = []; /* массив с задачами в правом списке */
+        doArrayDone = [], /* массив с задачами в правом списке */
+
+    localDoArrayStart = JSON.parse(localStorage.getItem('doArrayStart')),
+    localDoArrayProcess = JSON.parse(localStorage.getItem('doArrayProcess')),
+    localDoArrayDone = JSON.parse(localStorage.getItem('doArrayDone'));
+
+    // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
+    // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
+    // render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
+
+    if (localStorage.getItem('theme') === 'dark') {
+        switchTeme.classList.add('switchOn');
+        darkTheme();
+    }
+    if (localStorage.getItem('theme') === 'light') {
+        switchTeme.classList.remove('switchOn');
+        lightTheme();
+    }
     
     // функция открытия модального окна с формой
     function openFormModal() {
@@ -109,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // добавляем скролл в списке (parent), если элементы превышают (maxNum) количество
+    // добавляем скролл в списке задач (parent), если элементы превышают (maxNum) количество
     function scroll(doListArray, parent, maxNum) {
         if (doListArray.length > maxNum) {
             parent.style.overflow = 'hidden';
@@ -135,12 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             textDo.value.substring(0, 40);
             doArrayStart.push(textDo.value);
-            console.log(textDo.value.length);
+
+            localStorage.setItem('doArrayStart', JSON.stringify(doArrayStart));
             
             render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
+            // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
 
             formAddDo.reset();
-        }   
+        }
 
         scroll(doArrayStart, doList, 10);
 
@@ -199,7 +218,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                localStorage.setItem('doArrayStart', JSON.stringify(doArrayStart));
+
                 render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
+                // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
 
                 scroll(doArrayStart, doList, 10);
             });
@@ -220,12 +242,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         doArrayStart.splice(i, 1);
                     }
                 }
+
+                localStorage.setItem('doArrayProcess', JSON.stringify(doArrayProcess));
+                localStorage.setItem('doArrayStart', JSON.stringify(doArrayStart));
+
                 render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
+                // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
 
                 render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
+                // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
 
                 scroll(doArrayProcess, doListProcess, 10);
-                
+
+
+                // ачивка для первого списка
                 if (doArrayProcess.length >= 10) {
                     const achivment = document.createElement('div'),
                           achivmentImg = document.createElement('img'),
@@ -316,8 +346,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         btn.parentElement.remove(j);
                     }
                 }
+
+                localStorage.setItem('doArrayProcess', JSON.stringify(doArrayProcess));
+
                 //после
                 render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
+                // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
 
                 scroll(doArrayProcess, doListProcess, 10);
             });
@@ -338,9 +372,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
+
+                localStorage.setItem('doArrayProcess', JSON.stringify(doArrayProcess));
+                localStorage.setItem('doArrayDone', JSON.stringify(doArrayDone));
+
                 render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
+                // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
 
                 render(doArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg'); /* правый список */
+                // render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
                 // createDoneDoosList(doArrayDone, doListDone);
 
                 scroll(doArrayDone, doListDone, 10);
@@ -401,7 +441,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         doArrayDone.splice(i, 1);
                     }
                 }
+
+                localStorage.setItem('doArrayDone', JSON.stringify(doArrayDone));
+
                 render(doArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg'); /* правый список */
+                // render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
 
                 scroll(doArrayDone, doListDone, 10);
             });
@@ -437,19 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 0);
                 iconTheme.style.transform = 'rotate(360deg)';
             }, 0);
-            
-
-            document.querySelectorAll('.todo__title').forEach(item => {
-                item.style.color = '#fff'; /* меняем цвет текста в заголовках на белый */
-            });
-
-            document.body.style.backgroundColor = 'rgb(99, 99, 99)'; /* задаем цвет для body */
-            document.querySelector('.todo__block-start').style.backgroundColor = 'rgb(153, 153, 153)'; /* задаем цвет для всех списков задач */
-            document.querySelector('.todo__block-process').style.backgroundColor = 'rgb(153, 153, 153)'; /* задаем цвет для всех списков задач */
-            document.querySelector('.todo__block-done').style.backgroundColor = 'rgb(153, 153, 153)'; /* задаем цвет для всех списков задач */
-
-            document.querySelector('.modal__wrapper').style.backgroundColor = 'rgb(99, 99, 99)'; /* задаем цвет для модалки */
-
+            darkTheme();
         } else {
             // делаем всё как было для светлой темы
             setTimeout(() => {
@@ -458,21 +490,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 0);
                 iconTheme.style.transform = '';
             }, 0);
-            
-            
-            
-            document.querySelectorAll('.todo__title').forEach(item => {
-                item.style.color = '';
-            });
-
-            document.body.style.backgroundColor = '';
-            document.querySelector('.todo__block-start').style.backgroundColor = '';
-            document.querySelector('.todo__block-process').style.backgroundColor = '';
-            document.querySelector('.todo__block-done').style.backgroundColor = '';
-
-            document.querySelector('.modal__wrapper').style.backgroundColor = '';
+            lightTheme();
         }
     });
+
+    function darkTheme() {
+        localStorage.setItem('theme', 'dark');
+
+        iconTheme.setAttribute('src', '/src/assets/img/night.png'); /* меняем изображение при смене темы оформления */
+        iconTheme.style.transform = 'rotate(360deg)';
+        
+        document.querySelectorAll('.todo__title').forEach(item => {
+            item.style.color = '#fff'; /* меняем цвет текста в заголовках на белый */
+        });
+
+        document.body.style.backgroundColor = 'rgb(99, 99, 99)'; /* задаем цвет для body */
+        document.querySelector('.todo__block-start').style.backgroundColor = 'rgb(153, 153, 153)'; /* задаем цвет для всех списков задач */
+        document.querySelector('.todo__block-process').style.backgroundColor = 'rgb(153, 153, 153)'; /* задаем цвет для всех списков задач */
+        document.querySelector('.todo__block-done').style.backgroundColor = 'rgb(153, 153, 153)'; /* задаем цвет для всех списков задач */
+        document.querySelector('.modal__wrapper').style.backgroundColor = 'rgb(99, 99, 99)'; /* задаем цвет для модалки */
+    }
+
+    function lightTheme() {
+        localStorage.setItem('theme', 'light');
+            
+        iconTheme.setAttribute('src', '/src/assets/img/day.png'); /* меняем изображение при смене темы оформления */
+        iconTheme.style.transform = '';
+        
+        document.querySelectorAll('.todo__title').forEach(item => {
+            item.style.color = '';
+        });
+
+        document.body.style.backgroundColor = '';
+        document.querySelector('.todo__block-start').style.backgroundColor = '';
+        document.querySelector('.todo__block-process').style.backgroundColor = '';
+        document.querySelector('.todo__block-done').style.backgroundColor = '';
+        document.querySelector('.modal__wrapper').style.backgroundColor = '';
+    }
+
 
     // открытие модального окна с информацией
     FAQbtn.addEventListener('click', () => {
