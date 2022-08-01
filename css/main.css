@@ -1,0 +1,778 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(202, 202, 202);
+    overflow-y: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+a, ul, li {
+    text-transform: none;
+    text-decoration: none;
+    list-style: none;
+}
+
+p {
+    text-align: left;
+    font-size: 20px;
+    font-weight: normal;
+    padding: 20px 0;
+}
+
+.main {
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.secret {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    margin-top: 20px;
+    margin-left: 20px;
+
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: none;
+
+    transform: scale(1);
+
+    transition: transform 0.3s;
+}
+
+.secret img {
+    width: 32px;
+    height: 32px;
+}
+
+.secret:hover {
+    transform: scale(1.3);
+}
+
+/* менюшка  */
+.main__menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    display: flex;
+    flex-direction: space-between;
+}
+
+/* скрываем стандартный чек-бокс */
+.checkbox {
+    visibility:hidden;
+}
+
+/* иконка при смене фона */
+.icon__theme {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: none;
+
+    transform: rotate();
+
+    transition: transform 0.3s;
+}
+
+/* иконка для FAQ */
+.icon__faq {
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: none;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: background-color 0.3s;
+}
+
+.icon__faq img {
+    width: 25px;
+    height: 25px;
+}
+
+.icon__faq:hover {
+    background-color: #fff;
+}
+
+/* переключатель как в айфоне */
+.switch {
+    width: 62px;
+    height: 32px;
+    background: #E5E5E5;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-radius:16px; /* iE 11 */
+    -moz-border-radius:16px; /* Mozilla */
+    -webkit-border-radius:16px; /* Chrome и Safari */
+}
+
+.switch:before {
+    content: ' ';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 60px;
+    height: 30px;
+    background: #FFFFFF;
+    z-index: 1;
+    border-radius:16px; /* iE 11 */
+    -moz-border-radius:16px; /* Mozilla */
+    -webkit-border-radius:16px; /* Chrome и Safari */
+}
+
+.switch:after {
+    content: ' ';
+    height: 29px;
+    width: 29px;
+    border-radius: 28px;
+    z-index: 2;
+    background: #FFFFFF;
+    position: absolute;
+    -webkit-transition-duration: 300ms;
+    transition-duration: 300ms;
+    top: 1px;
+    left: 1px;
+    -webkit-box-shadow: 0 2px 5px #999999;
+    box-shadow: 0 2px 5px #999999;
+}
+
+.switchOn , .switchOn:before {
+    background: #4cd964 !important;
+}
+
+.switchOn , .icon__theme:before {
+    transform: rotate(360deg);
+}
+.switchOn:after {
+    left: 32px !important;
+}
+
+.switchOn , .icon__theme::after {
+    transform: rotate(360deg);
+}
+
+/* модалка */
+.modal {
+   /* Скрываем подложку  */
+    display: none;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 20;
+    transition: .3s all;
+}
+
+.modal__wrapper {
+    display: none; /* Скрываем окна  */
+    
+    width: 100%; /*  Установаем ширину окна  */
+    max-width: 500px;
+    height: 100%;
+    max-height: 150px;
+    
+    position: fixed; /*  Центрируем и задаем z-index */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30; /* Должен быть выше чем у подложки*/
+    
+    box-shadow: 0 3px 10px -.5px rgba(0, 0, 0, .2);  /*  Побочные стили   */
+    text-align: center;
+    padding: 30px;
+    border-radius: 50px;
+    background-color: #fff;
+    transition: 0.3s all;
+}
+
+.modal__content {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formAddDo {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* форма добавления новой задачи в модальном окне */
+form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.do__text {
+    width: 80%;
+    border: none;
+    border-bottom:1px solid black;
+    border-radius: 50px;
+    padding: 10px;
+    font-weight: 700;
+}
+
+/* кнопка формы FORM 'добавить задачу'  */
+.add__do {
+    height: 30px;
+    width: 80%;
+    background-color: #F6272F;
+    border-radius: 50px;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.add__do:hover {
+    background-color: black;
+    color: #fff;
+}
+
+/* кнопка закрытия формы */
+.close__btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #F6272F;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: 700;
+}
+
+.close__btn:hover {
+    background-color: black;
+    color: #fff;
+}
+
+.todo__title p {
+    font-weight: 700;
+}
+
+.todo__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* первый блок *************************************************************************/
+.todo__block-start {
+    margin: 20px;
+    width: 30%;
+    background-color: #fff;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 20px 20px -.20px rgba(0, 0, 0, .2);
+}
+
+.todo__block-start .todo__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* кнопка "добавить задачу" в заголовке первого списка задач */
+.open__form-btn {
+    background-color: #F6272F; 
+    border-radius: 50px; 
+    width: 65px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* картинка svg в кнопке "добавить задачу" в заголовке первого списка задач */
+.open__form {
+    filter: invert(1);
+    height: 15px;
+    width: 15px;
+}
+
+.open__form-btn:hover {
+    background-color: gray;
+    filter: invert(0);
+}
+
+.open__form-btn:hover .open__form {
+    filter: invert(0);
+}
+
+/* список задач в первом (левом) блоке */
+.do__list {
+    height: 80%;
+}
+
+/* настройка полосы прокрутки для первого (левого) списка */
+.do__list::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+}
+
+.do__list::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, #ff0000 0%, #ffffff 99%);
+    border-radius: 5px;
+}
+
+/* цвет задачи в первом списке */
+.start {
+    background-color: #F6272F;
+}
+
+/* второй блок *********************************************************************/
+.todo__block-process {
+    margin: 20px;
+    width: 30%;
+    background-color: #fff;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 20px 20px -.20px rgba(0, 0, 0, .2);
+}
+
+/* цвет задачи во втором списке */
+.process {
+    background-color: #000000;
+}
+
+/* список задач во втором (центральном) блоке */
+.do__list-process {
+    height: 80%;
+}
+
+/* настройка полосы прокрутки для второго (центрального) списка */
+.do__list-process::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+}
+
+.do__list-process::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, #000000 0%, #ffffff 99%);
+    border-radius: 5px;
+}
+
+/* кнопка для переноса задачи из второго в третий список задач */
+.done__do {
+    cursor: pointer;
+    filter: invert(1);
+    margin-right: 5px;
+}
+
+.todo__block-process .delete__do:hover {
+    background-color: #fff;
+    filter: invert(1);
+    border-radius: 100px;
+}
+
+/* третий блок ************************************************************************/
+.todo__block-done {
+    margin: 20px;
+    width: 30%;
+    background-color: #fff;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 20px 20px -.20px rgba(0, 0, 0, .2);
+}
+
+/* цвет задач в третьем списке */
+.done {
+    background-color: #1AB55B;
+}
+
+/* список задач в третьем (правом) блоке */
+.do__list-done {
+    height: 80%;
+}
+
+/* настройка полосы прокрутки для второго (центрального) списка */
+.do__list-done::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+}
+
+.do__list-done::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, #1AB55B 0%, #ffffff 99%);
+    border-radius: 5px;
+}
+
+.todo__block-done .delete__do:hover {
+    background-color: #1AB55B;
+    border-radius: 100px;
+}
+
+/* галочка в третьем списке задач */
+.success__do {
+    filter: invert(1);
+    margin-right: 5px;
+}
+
+/* do задача */
+.do__item {
+    display: block;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+
+    position: relative;
+
+    opacity: 1;
+
+    transition: 0.3s all;
+}
+
+/* внутренности do__item */
+.content__do-item {
+    height: 40px;
+    padding: 5px;
+    border-radius: 50px;
+
+    color: #fff;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    transition: width 0.2s;
+
+    z-index: 1;
+}
+
+.text {
+    text-align: center;
+    margin-left: 10px;
+}
+
+/* кнопка удаления задачи */
+.delete__do {
+    position: relative;
+
+    opacity: 0;
+    display: none;
+}
+
+.do__item:hover .delete__do {
+    display: block;
+    position: absolute;
+    right: 0;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.do__item:hover .content__do-item {
+    width: 90%;
+}
+
+.delete__do:hover {
+    background-color: #F6272F;
+    border-radius: 100px;
+}
+
+.submit__do {
+    cursor: pointer;
+    filter: invert(1);
+}
+
+/* медиа-запросы */
+@media(max-width: 4000px) {
+
+    .container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .todo__block-start {
+        width: 30%;
+        height: 60%;
+    }
+
+    .todo__block-process {
+        width: 30%;
+        height: 60%;
+    }
+
+    .todo__block-done {
+        width: 30%;
+        height: 60%;
+    }
+
+    .tabs {
+        opacity: 0;
+    }
+}
+
+@media(max-width: 2560px) {
+
+    .container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .todo__block-start {
+        width: 30%;
+        height: 60%;
+    }
+
+    .todo__block-process {
+        width: 30%;
+        height: 60%;
+    }
+
+    .todo__block-done {
+        width: 30%;
+        height: 60%;
+    }
+
+    .tabs {
+        opacity: 0;
+    }
+}
+
+@media(max-width: 1920px) {
+
+    .container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .todo__block-start {
+        width: 30%;
+        height: 60%;
+    }
+
+    .todo__block-process {
+        width: 30%;
+        height: 60%;
+    }
+
+    .todo__block-done {
+        width: 30%;
+        height: 60%;
+    }
+
+    .tabs {
+        opacity: 0;
+    }
+}
+
+@media(max-width: 1120px) {
+    .main {
+        min-width: 1300px;
+    }
+
+    /* статус-бар для мобильных */
+    .tabs {
+        width: 70%;
+        height: 10px;
+        position: absolute;
+        left: 15%;
+        bottom: 10%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .next {
+        cursor: pointer;
+        height: 60px;
+        width: 60px;
+        opacity: 0.5;
+
+        background-image: url('../img/right.png');
+        background-size: cover;
+
+        transition: opacity 0.3s;
+    }
+
+    .prev {
+        cursor: pointer;
+        height: 60px;
+        width: 60px;
+        opacity: 0.5;
+
+        background-image: url('../img/right.png');
+        background-size: cover;
+        transform: scale(-1, 1);
+
+        transition: opacity 0.3s;
+    }
+
+    .next:hover {
+        opacity: 1;
+    }
+
+    .prev:hover {
+        opacity: 1;
+    }
+
+    body::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+        border-radius: 5px;
+    }
+    
+    body::-webkit-scrollbar-thumb {
+        background-image: linear-gradient(180deg, #1AB55B 0%, #a2a2a2 99%);
+        border-radius: 5px;
+    }
+}
+
+@media(max-width: 768px) {
+    .main {
+        min-width: 1100px;
+    }
+
+    .tabs {
+        opacity: 1;
+    }
+
+    .main::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+        border-radius: 5px;
+    }
+    
+    .main::-webkit-scrollbar-thumb {
+        background-image: linear-gradient(180deg, #1AB55B 0%, #a2a2a2 99%);
+        border-radius: 5px;
+    }
+}
+
+@media(min-width: 425px) {
+    .main {
+        min-width: 1250px;
+    }
+
+   
+
+    .tabs {
+        opacity: 1;
+    }
+
+    .main::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+        border-radius: 5px;
+    }
+    
+    .main::-webkit-scrollbar-thumb {
+        background-image: linear-gradient(180deg, #1AB55B 0%, #a2a2a2 99%);
+        border-radius: 5px;
+    }
+}
+
+@media(max-width: 356px) {
+    .main {
+        min-width: 1000px;
+    }
+
+
+    
+
+    .tabs {
+        opacity: 1;
+    }
+
+    .main::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+        border-radius: 5px;
+    }
+    
+    .main::-webkit-scrollbar-thumb {
+        background-image: linear-gradient(180deg, #1AB55B 0%, #a2a2a2 99%);
+        border-radius: 5px;
+    }
+}
+
+@media(max-width: 320px) {
+    .main {
+        min-width: 920px;
+    }
+
+
+
+    .tabs {
+        opacity: 1;
+    }
+
+    .main::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+        border-radius: 5px;
+    }
+    
+    .main::-webkit-scrollbar-thumb {
+        background-image: linear-gradient(180deg, #1AB55B 0%, #a2a2a2 99%);
+        border-radius: 5px;
+    }
+}
+
