@@ -16,16 +16,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let doArrayStart = [], /* массив с задачами в левом списке */
         doArrayProcess = [], /* массив с задачами в центральном списке */
-        doArrayDone = [], /* массив с задачами в правом списке */
+        doArrayDone = []; /* массив с задачами в правом списке */
 
-    localDoArrayStart = JSON.parse(localStorage.getItem('doArrayStart')),
-    localDoArrayProcess = JSON.parse(localStorage.getItem('doArrayProcess')),
-    localDoArrayDone = JSON.parse(localStorage.getItem('doArrayDone'));
+    // код между длинными знаками ------ хз как работает ваще, но работает, я сам в шоке xD
+    // ----------------------------------------------------------------------------------------------------------------------------
 
-    // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
-    // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
-    // render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
+    let localDoArrayStart = JSON.parse(localStorage.getItem('doArrayStart')); 
+    let localDoArrayProcess = JSON.parse(localStorage.getItem('doArrayProcess'));
+    let localDoArrayDone = JSON.parse(localStorage.getItem('doArrayDone'));
 
+    doArrayStart.push('Добавить задачу'); /* объявляем (3 раза соответственно) значение в каждом массиве по дефолту, иначе localStorage ломается :( */
+    localStorage.setItem('doArrayStart', JSON.stringify(localDoArrayStart)); /* сразу даем понять (3 раза соответственно) localStorage, откуда нужно брать данные */
+
+    doArrayProcess.push('Решить задачу');
+    localStorage.setItem('doArrayProcess', JSON.stringify(localDoArrayProcess));
+
+    doArrayDone.push('Решенная задача');
+    localStorage.setItem('doArrayDone', JSON.stringify(localDoArrayDone));
+
+    // проверяем первый массив
+    if (doArrayStart === null) { /* если исходный массив пуст (что невозможно, но код работает только так, или я просто туп) */
+        localStorage.setItem('doArrayStart', JSON.stringify(localDoArrayStart)); /* даем понять localStorage, откуда надо брать данные, на всякий случай еще раз ему напомним */
+    } else if (localDoArrayStart === null) { /* ну а если нужный нам массив пуст (что тоже нвозможно, но видимо JS нравится так проверять код) */
+        localStorage.setItem('doArrayStart', JSON.stringify(doArrayStart)); /* еще раз даем понять localStorage, откуда надо брать данные! (только без мата :D ) */
+    } else {
+        render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* ну а если всё в порядке, рендерим список, как задумано, из localStorage */
+    }
+
+    // проверяем второй массив
+    if (doArrayProcess === null) {
+        localStorage.setItem('doArrayProcess', JSON.stringify(localDoArrayProcess));
+    } else if (localDoArrayProcess === null) {
+        localStorage.setItem('doArrayProcess', JSON.stringify(doArrayProcess));
+    } else {
+        render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
+    }
+
+    // проверяем второй массив
+    if (doArrayDone === null) {
+        localStorage.setItem('doArrayDone', JSON.stringify(localDoArrayDone));
+    } else if (localDoArrayDone === null) {
+        localStorage.setItem('doArrayDone', JSON.stringify(doArrayDone));
+    } else {
+        render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
+    }
+
+    // господи, как я рад, что это работает
+    // --------------------------------------------------------------------------------------------------------------
+
+
+    // проверка на смену темы оформления
     if (localStorage.getItem('theme') === 'dark') {
         switchTeme.classList.add('switchOn');
         darkTheme();
@@ -151,19 +191,23 @@ document.addEventListener('DOMContentLoaded', () => {
             textDo.style.border = '5px solid red';
         } else {
             textDo.value.substring(0, 40);
-            doArrayStart.push(textDo.value);
+            localDoArrayStart.push(textDo.value);
+            localStorage.setItem('doArrayStart', JSON.stringify(localDoArrayStart));
 
-            localStorage.setItem('doArrayStart', JSON.stringify(doArrayStart));
+            // console.log(doArrayStart);
+            // console.log(JSON.parse(localStorage.getItem('doArrayStart')));
             
-            render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
-            // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
+            // render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
+            render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
 
             formAddDo.reset();
+
+            console.log('это первый локальный массив', localDoArrayStart);
         }
 
-        scroll(doArrayStart, doList, 10);
+        scroll(localDoArrayStart, doList, 10);
 
-        if (doArrayStart.length >= 10) {
+        if (localDoArrayStart.length >= 10) {
             const achivment = document.createElement('div'),
                   achivmentImg = document.createElement('img'),
                   achivmentText = document.createElement('div');
@@ -210,20 +254,23 @@ document.addEventListener('DOMContentLoaded', () => {
         //отслеживаем клик на кнопку удаления задачи в левом списке
         doList.querySelectorAll('.delete__do').forEach(function(btn, j) {
             btn.addEventListener('click', function() {
-                for (let i = 0; i < doArrayStart.length; i++) {
+                for (let i = 0; i < localDoArrayStart.length; i++) {
                     //если индекс кнопки "удалить" совпадает с индексом массива doArrayStart (левый список дел), то удаляем этот элемент (li) из центрального списка, удаляем элемент из массива doArrayStart
                     if (j === i) {
                         btn.parentElement.remove(j);
-                        doArrayStart.splice(i, 1);
+                        localDoArrayStart.splice(i, 1);
                     }
                 }
 
-                localStorage.setItem('doArrayStart', JSON.stringify(doArrayStart));
+                localStorage.setItem('doArrayStart', JSON.stringify(localDoArrayStart));
 
-                render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
-                // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
+                // console.log(doArrayStart);
+                // console.log(JSON.parse(localStorage.getItem('doArrayStart')));
 
-                scroll(doArrayStart, doList, 10);
+                // render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
+                render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
+
+                scroll(localDoArrayStart, doList, 10);
             });
             
         });
@@ -235,28 +282,31 @@ document.addEventListener('DOMContentLoaded', () => {
         //отслеживаем клик на кнопку удаления задачи в левом списке
         doList.querySelectorAll('.submit__do').forEach(function(btn, j) {
             btn.addEventListener('click', function() {
-                for (let i = 0; i < doArrayStart.length; i++) {
+                for (let i = 0; i < localDoArrayStart.length; i++) {
                     if (j === i) {
-                        doArrayProcess.push(doArrayStart[i]);
+                        localDoArrayProcess.push(localDoArrayStart[i]);
                         btn.parentElement.remove(j);
-                        doArrayStart.splice(i, 1);
+                        localDoArrayStart.splice(i, 1);
                     }
                 }
 
-                localStorage.setItem('doArrayProcess', JSON.stringify(doArrayProcess));
-                localStorage.setItem('doArrayStart', JSON.stringify(doArrayStart));
+                localStorage.setItem('doArrayProcess', JSON.stringify(localDoArrayProcess));
+                localStorage.setItem('doArrayStart', JSON.stringify(localDoArrayStart));
 
-                render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
-                // render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
+                // console.log(doArrayStart);
+                // console.log(JSON.parse(localStorage.getItem('doArrayStart')));
 
-                render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
-                // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
+                // render(doArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png'); /* первый список */
+                render(localDoArrayStart, doList, 'start', 'submit__do', '/src/assets/img/right.png');
 
-                scroll(doArrayProcess, doListProcess, 10);
+                // render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
+                render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
+
+                scroll(localDoArrayProcess, doListProcess, 10);
 
 
                 // ачивка для первого списка
-                if (doArrayProcess.length >= 10) {
+                if (localDoArrayProcess.length >= 10) {
                     const achivment = document.createElement('div'),
                           achivmentImg = document.createElement('img'),
                           achivmentText = document.createElement('div');
@@ -339,21 +389,21 @@ document.addEventListener('DOMContentLoaded', () => {
         doListProcess.querySelectorAll('.delete__do').forEach(function(btn, j) {
             btn.addEventListener('click', function() {
                 modal.remove();
-                for (let i = 0; i < doArrayProcess.length; i++) {
+                for (let i = 0; i < localDoArrayProcess.length; i++) {
                     //если индекс кнопки "удалить" совпадает с индексом массива doArraProcess (центральный список дел), то удаляем этот элемент (li) из центрального списка, удаляем элемент из массива doArrayProcess
                     if (j === i) {
-                        doArrayProcess.splice(i, 1);
+                        localDoArrayProcess.splice(i, 1);
                         btn.parentElement.remove(j);
                     }
                 }
 
-                localStorage.setItem('doArrayProcess', JSON.stringify(doArrayProcess));
+                localStorage.setItem('doArrayProcess', JSON.stringify(localDoArrayProcess));
 
                 //после
-                render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
-                // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
+                // render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
+                render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
 
-                scroll(doArrayProcess, doListProcess, 10);
+                scroll(localDoArrayProcess, doListProcess, 10);
             });
         });
     });
@@ -364,28 +414,28 @@ document.addEventListener('DOMContentLoaded', () => {
        doListProcess.querySelectorAll('.done__do').forEach(function(btn, j) {
             btn.addEventListener('click', function() {
                 if (e.target.classList.contains('done__do')) {
-                    for (let i = 0; i < doArrayProcess.length; i++) {
+                    for (let i = 0; i < localDoArrayProcess.length; i++) {
                         if (j === i) {
-                            doArrayDone.push(doArrayProcess[i]);
+                            localDoArrayDone.push(localDoArrayProcess[i]);
                             btn.parentElement.remove(j);
-                            doArrayProcess.splice(i, 1);
+                            localDoArrayProcess.splice(i, 1);
                         }
                     }
                 }
 
-                localStorage.setItem('doArrayProcess', JSON.stringify(doArrayProcess));
-                localStorage.setItem('doArrayDone', JSON.stringify(doArrayDone));
+                localStorage.setItem('doArrayProcess', JSON.stringify(localDoArrayProcess));
+                localStorage.setItem('doArrayDone', JSON.stringify(localDoArrayDone));
 
-                render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
-                // render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
+                // render(doArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif'); /* центральный список */
+                render(localDoArrayProcess, doListProcess, 'process', 'done__do', '/src/assets/img/load.gif');
 
-                render(doArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg'); /* правый список */
-                // render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
+                // render(doArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg'); /* правый список */
+                render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
                 // createDoneDoosList(doArrayDone, doListDone);
 
-                scroll(doArrayDone, doListDone, 10);
+                scroll(localDoArrayDone, doListDone, 10);
 
-                if (doArrayDone.length >= 10) {
+                if (localDoArrayDone.length >= 10) {
                     const achivment = document.createElement('div'),
                           achivmentImg = document.createElement('img'),
                           achivmentText = document.createElement('div');
@@ -434,20 +484,20 @@ document.addEventListener('DOMContentLoaded', () => {
         //отслеживаем клик на кнопку удаления задачи в правом списке
         doListDone.querySelectorAll('.delete__do').forEach(function(btn, j) {
             btn.addEventListener('click', function() {
-                for (let i = 0; i < doArrayDone.length; i++) {
+                for (let i = 0; i < localDoArrayDone.length; i++) {
                     //если индекс кнопки "удалить" совпадает с индексом массива doArrayStart (левый список дел), то удаляем этот элемент (li) из центрального списка, удаляем элемент из массива doArrayStart
                     if (j === i) {
                         btn.parentElement.remove(j);
-                        doArrayDone.splice(i, 1);
+                        localDoArrayDone.splice(i, 1);
                     }
                 }
 
-                localStorage.setItem('doArrayDone', JSON.stringify(doArrayDone));
+                localStorage.setItem('doArrayDone', JSON.stringify(localDoArrayDone));
 
-                render(doArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg'); /* правый список */
-                // render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
+                // render(doArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg'); /* правый список */
+                render(localDoArrayDone, doListDone, 'done', 'success__do', '/src/assets/img/done.svg');
 
-                scroll(doArrayDone, doListDone, 10);
+                scroll(localDoArrayDone, doListDone, 10);
             });
             
         });
